@@ -1,5 +1,0 @@
-show
-info
-help
-show
-save
