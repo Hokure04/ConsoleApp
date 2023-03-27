@@ -14,6 +14,7 @@ public class AddCommand extends AbstractCommand {
     /** поле переговорщик с пользователем */
     private NegotiatorWithUser nGW;
     private Receiver receiver;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды Commands.AddCommand
@@ -21,11 +22,12 @@ public class AddCommand extends AbstractCommand {
      * @param collectionManager
      * @param nGW
      */
-    public AddCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver){
+    public AddCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver, ExceptionValidator eValidator){
         super("add {element}", "добавляет элемент в коллекцию");
         this.collectionManager = collectionManager;
         this.nGW = nGW;
         this.receiver = receiver;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -37,7 +39,7 @@ public class AddCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument){
         try{
-            if(!argument.isEmpty()) throw new IncorrectlyInstalledElement();
+            eValidator.noArgument(argument);
             receiver.add(new MusicBand(
                     collectionManager.generateNextId(),
                     nGW.askName(),

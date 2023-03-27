@@ -66,7 +66,6 @@ public class Console {
             if(!scriptScan.hasNext()) throw new NoSuchElementException();
             Scanner secondScanner = negotiator.getUserScanner();
             negotiator.setUserScanner(scriptScan);
-            System.out.println("я здесь");
             negotiator.setFileMode();
             do{
                 userCommand = (scriptScan.nextLine().trim() + " ").split(" ", 2);

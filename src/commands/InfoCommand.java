@@ -10,14 +10,16 @@ import java.time.LocalDateTime;
 public class InfoCommand extends AbstractCommand {
     /** поле мэнеджер коллекции */
     private CollectionManager collectionManager;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды info
      * @param collectionManager мэнеджер коллекции
      */
-    public InfoCommand(CollectionManager collectionManager) {
+    public InfoCommand(CollectionManager collectionManager, ExceptionValidator eValidator) {
         super("info", "вывести в стандартный поток вывода информацию о коллекции");
         this.collectionManager = collectionManager;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -30,7 +32,7 @@ public class InfoCommand extends AbstractCommand {
     public boolean execute(String argument){
         try{
             System.out.println("Информация о коллекции:");
-            if(!argument.isEmpty()) throw new IncorrectlyInstalledElement();
+            eValidator.noArgument(argument);
             LocalDateTime lDT = collectionManager.getUseTime();
             String lastUseTime = (lDT == null) ? "дата создания ещё не устанавливалась":
                     lDT.toLocalDate().toString()+lDT.toLocalTime().toString();

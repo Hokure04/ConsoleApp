@@ -10,16 +10,18 @@ public class ClearCommand extends AbstractCommand {
     /** поле мэнеджер коллекции  */
     private CollectionManager collectionManager;
     private Receiver receiver;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды Commands.ClearCommand
      * super - принимает имя объекта и его описание
      * @param collectionManager
      */
-    public ClearCommand(CollectionManager collectionManager, Receiver receiver){
+    public ClearCommand(CollectionManager collectionManager, Receiver receiver, ExceptionValidator eValidator){
         super("clear","команда очищает коллекцию");
         this.collectionManager =collectionManager;
         this.receiver = receiver;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -31,7 +33,7 @@ public class ClearCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument){
         try{
-            if(!argument.isEmpty()) throw new IncorrectlyInstalledElement();
+            eValidator.noArgument(argument);
             receiver.clear();
             System.out.println("Коллекция полностью очищена");
             return true;

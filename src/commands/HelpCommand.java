@@ -1,18 +1,20 @@
 package commands;
 
 import exceptions.*;
+import utility.ExceptionValidator;
 
 
 /**
  * Класс команда help наследующийся от абстрактного класса Commands.AbstractCommand
  */
 public class HelpCommand extends AbstractCommand {
-
+    private ExceptionValidator eValidator;
     /**
      * Конструктор - создание команды help
      */
-    public HelpCommand() {
+    public HelpCommand(ExceptionValidator eValidator) {
         super("help", "вывести все доступные команды");
+        this.eValidator = eValidator;
     }
 
     /**
@@ -24,7 +26,7 @@ public class HelpCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument){
         try{
-            if(!argument.isEmpty()) throw new IncorrectlyInstalledElement();
+            eValidator.noArgument(argument);
             return true;
         }catch (IncorrectlyInstalledElement e){
             System.out.println("Установлено неправильное значение элемента!");

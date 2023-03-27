@@ -13,17 +13,19 @@ public class CountGreaterThanStudioCommand extends AbstractCommand {
     /** поле переговорщик с пользователем */
     private NegotiatorWithUser nGW;
     private Receiver receiver;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды CountGreaterThanStudio
      * @param collectionManager мэнеджер коллекции
      * @param nGW переговорщик с пользователем
      */
-    public CountGreaterThanStudioCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver){
+    public CountGreaterThanStudioCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver, ExceptionValidator eValidator){
         super("count_greater_than_studio studio", "вывести количество элементов, значение поля studio которых больше заданного");
         this.collectionManager = collectionManager;
         this.nGW = nGW;
         this.receiver = receiver;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -35,18 +37,18 @@ public class CountGreaterThanStudioCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument){
         try {
-            if (!argument.isEmpty()) throw new IncorrectlyInstalledElement();
-            if (collectionManager.learnCollectionSize() == 0) throw new NothingInTheCollectionException();
+            eValidator.noArgument(argument);
+            eValidator.nullCollection(collectionManager);
             String studioName = nGW.askStudioName();
             Studio collectionStudio = collectionManager.getByStudioName(studioName);
-            if (collectionStudio == null) throw new MusicBandDoesNotExistException();
+            eValidator.studioDoesntExist(collectionStudio);
             receiver.countGreaterThanStudio(collectionStudio);
             return true;
         }catch (IncorrectlyInstalledElement e){
             System.out.println("Установлено неправильное значение элемента!");
         }catch (NothingInTheCollectionException e){
             System.out.println("Коллекция пуста!");
-        }catch (MusicBandDoesNotExistException e){
+        }catch (StudioDoesNotExistException e){
             System.out.println("Элемента с такой студией в коллекции нет!");
         }
         return false;

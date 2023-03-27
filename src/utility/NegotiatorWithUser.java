@@ -13,14 +13,16 @@ public class NegotiatorWithUser {
     private Scanner userScanner;
     /** поле режим файла */
     private boolean fileMode;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор создающий объект переговорщик с пользователем
      * @param userScanner сканнер
      */
-    public NegotiatorWithUser(Scanner userScanner){
+    public NegotiatorWithUser(Scanner userScanner, ExceptionValidator eValidator){
         this.userScanner = userScanner;
         fileMode = false;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -64,7 +66,7 @@ public class NegotiatorWithUser {
                 System.out.println("Введите имя:");
                 name = userScanner.nextLine().trim();
                 if (fileMode) System.out.println(name);
-                if (name.equals("")) throw new MustBeNotEmptyException();
+                eValidator.emptyString(name);
                 break;
             }catch (NumberFormatException exception){
                 System.out.println("Данные введены неверно!");
@@ -88,7 +90,7 @@ public class NegotiatorWithUser {
                 System.out.println("ВВедите ID:");
                 id = Integer.parseInt(userScanner.nextLine());
                 if (fileMode) System.out.println(id);
-                if (id <= 0) throw new LessThanZeroException();
+                eValidator.zeroAndLower(id);
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Данные введены неверно!");
@@ -164,7 +166,7 @@ public class NegotiatorWithUser {
                 System.out.println("Введите количество участников:");
                 numberOP = Integer.parseInt(userScanner.nextLine());
                 if (fileMode) System.out.println(numberOP);
-                if(numberOP <= 0) throw new LessThanZeroException();
+                eValidator.zeroAndLower(numberOP);
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Данные введены неверно!");
@@ -191,7 +193,7 @@ public class NegotiatorWithUser {
                     singlesCount = null;
                 }else if (!singlesCountText.equals("")){
                     singlesCount = Integer.valueOf(singlesCountText);
-                    if(singlesCount <= 0) throw new LessThanZeroException();
+                    eValidator.zeroAndLower(singlesCount);
                 }
                 break;
             }catch (NumberFormatException e){
@@ -288,7 +290,7 @@ public class NegotiatorWithUser {
                 System.out.println("Есть ли у данной группы студия? (yes/no)");
                 text = userScanner.nextLine();
                 if (Objects.equals(text, "yes")) {
-                    if (text.equals("")) throw new MustBeNotEmptyException();
+                    eValidator.emptyString(text);
                     String studioName = this.askStudioName();
                     stud = new Studio(studioName);
                 } else if (Objects.equals(text, "no")) {
@@ -316,7 +318,7 @@ public class NegotiatorWithUser {
                 System.out.println(nextQuestion);
                 answer = userScanner.nextLine().trim();
                 if (fileMode) System.out.println(answer);
-                if (answer.equals("")) throw new MustBeNotEmptyException();
+                eValidator.emptyString(answer);
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Данные введены неверно!");

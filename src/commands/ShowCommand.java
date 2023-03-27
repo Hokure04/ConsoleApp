@@ -10,15 +10,17 @@ public class ShowCommand extends AbstractCommand {
     /** поле мэнеджер коллекции */
     private CollectionManager collectionManager;
     private Receiver receiver;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды removeLower
      * @param collectionManager мэнеджер коллекции
      */
-    public ShowCommand(CollectionManager collectionManager,Receiver receiver){
+    public ShowCommand(CollectionManager collectionManager,Receiver receiver, ExceptionValidator eValidator){
         super("show","вывести в стандартный поток вывода все элементы коллекции");
         this.collectionManager = collectionManager;
         this.receiver = receiver;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -30,7 +32,7 @@ public class ShowCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument) {
         try {
-            if (!argument.isEmpty()) throw new IncorrectlyInstalledElement();
+            eValidator.noArgument(argument);
             receiver.show();
             return true;
         } catch (IncorrectlyInstalledElement e) {

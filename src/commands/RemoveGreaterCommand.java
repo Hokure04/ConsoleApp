@@ -14,17 +14,19 @@ public class RemoveGreaterCommand extends AbstractCommand {
     /** поле переговорщик с пользователем */
     private NegotiatorWithUser nGW;
     private Receiver receiver;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды removeGreater
      * @param collectionManager мэнеджер коллекции
      * @param nGW переговорщик с пользователем
      */
-    public RemoveGreaterCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver){
+    public RemoveGreaterCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver, ExceptionValidator eValidator){
         super("remove_greater", "удалить из коллекции все элементы превышающие заданный");
         this.collectionManager = collectionManager;
         this.nGW = nGW;
         this.receiver = receiver;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -36,8 +38,8 @@ public class RemoveGreaterCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument){
         try{
-            if(!argument.isEmpty()) throw new IncorrectlyInstalledElement();
-            if(collectionManager.learnCollectionSize() == 0) throw new NothingInTheCollectionException();
+            eValidator.noArgument(argument);
+            eValidator.nullCollection(collectionManager);
             MusicBand musicBand = new MusicBand(
                     collectionManager.generateNextId(),
                     nGW.askName(),
@@ -50,7 +52,7 @@ public class RemoveGreaterCommand extends AbstractCommand {
                     LocalDateTime.now()
             );
             MusicBand collectionBand = collectionManager.getByValue(musicBand);
-            if(collectionBand == null) throw new MusicBandDoesNotExistException();
+            eValidator.doesntExist(collectionBand);
             receiver.removeGreater(collectionBand);
             System.out.println("Группы больше заданной удалены!");
             return true;

@@ -9,21 +9,23 @@ import data.*;
  */
 public class RemoveByIdCommand extends AbstractCommand {
     /** поле мэнеджер коллекции */
-    private CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
     /** поле переговорщик с пользователем */
     private NegotiatorWithUser nGW;
     private Receiver receiver;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды removeById
      * @param collectionManager мэнеджер коллекции
      * @param nGW переговорщик с пользователем
      */
-    public RemoveByIdCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver){
+    public RemoveByIdCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver, ExceptionValidator eValidator){
         super("remove_by_id","удаление элемента коллекции по его id");
         this.collectionManager = collectionManager;
         this.nGW = nGW;
         this.receiver = receiver;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -34,11 +36,11 @@ public class RemoveByIdCommand extends AbstractCommand {
      */
     public boolean execute(String argument){
         try{
-            if(argument.isEmpty()) throw new IncorrectlyInstalledElement();
-            if(collectionManager.learnCollectionSize() == 0) throw new NothingInTheCollectionException();
+            eValidator.argument(argument);
+            eValidator.nullCollection(collectionManager);
             int id = Integer.parseInt(argument);
             MusicBand musicBand = receiver.getById(id);
-            if(musicBand == null) throw new MusicBandDoesNotExistException();
+            eValidator.doesntExist(musicBand);
             collectionManager.remove(musicBand);
             System.out.println("Музыкальная группа удалена");
             return true;

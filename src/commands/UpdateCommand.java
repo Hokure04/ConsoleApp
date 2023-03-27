@@ -14,17 +14,19 @@ public class UpdateCommand extends AbstractCommand {
     /** поле переговорщик с пользователем */
     private NegotiatorWithUser nGW;
     private Receiver receiver;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды update
      * @param collectionManager мэнеджер коллекции
      * @param nGW переговорщик с пользователем
      */
-    public UpdateCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver){
+    public UpdateCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver, ExceptionValidator eValidator){
         super("update id {element}", "обновить значение элемента коллекции по его id");
         this.collectionManager = collectionManager;
         this.nGW = nGW;
         this.receiver = receiver;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -36,11 +38,11 @@ public class UpdateCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument){
         try{
-            if(!argument.isEmpty()) throw new IncorrectlyInstalledElement();
-            if(collectionManager.learnCollectionSize() == 0) throw new NothingInTheCollectionException();
+            eValidator.noArgument(argument);
+            eValidator.nullCollection(collectionManager);
             int id = nGW.askId();
             MusicBand band = receiver.getById(id);
-            if(band == null) throw new MusicBandDoesNotExistException();
+            eValidator.doesntExist(band);
             String name = band.getName();
             Float coordinateX = band.getCoordinateX();
             Integer coordinateY = band.getCoordinateY();

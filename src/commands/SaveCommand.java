@@ -12,17 +12,19 @@ public class SaveCommand extends AbstractCommand {
     /** поле файл мэнеджер */
     private FileManager fileManager;
     private Receiver receiver;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды save
      * @param collectionManager мэнеджер коллекции
      * @param fileManager файл мэнеджер
      */
-    public SaveCommand(CollectionManager collectionManager, FileManager fileManager, Receiver receiver){
+    public SaveCommand(CollectionManager collectionManager, FileManager fileManager, Receiver receiver, ExceptionValidator eValidator){
         super("save","сохранить коллекцию в файл");
         this.collectionManager = collectionManager;
         this.fileManager = fileManager;
         this.receiver = receiver;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -34,7 +36,7 @@ public class SaveCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument){
         try {
-            if (!argument.isEmpty()) throw new IncorrectlyInstalledElement();
+            eValidator.noArgument(argument);
             receiver.saveCollection(fileManager);
             System.out.println("Коллекция успешна сохранена");
             return true;

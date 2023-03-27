@@ -1,17 +1,21 @@
 package commands;
 
 import exceptions.*;
+import utility.ExceptionValidator;
 
 
 /**
  * Класс команда exit наследующийся от абстрактного класса Commands.AbstractCommand
  */
 public class ExitCommand extends AbstractCommand {
+    private ExceptionValidator eValidator;
+
     /**
      * Конструктор - создание команды exit
      */
-    public ExitCommand(){
+    public ExitCommand(ExceptionValidator eValidator){
         super("exit", "выйти из программы");
+        this.eValidator = eValidator;
     }
 
     /**
@@ -22,7 +26,7 @@ public class ExitCommand extends AbstractCommand {
      */
     public boolean execute(String argument){
         try{
-            if(!argument.isEmpty()) throw new IncorrectlyInstalledElement();
+            eValidator.noArgument(argument);
             return true;
         }catch (IncorrectlyInstalledElement e){
             System.out.println("Установлено неправильное значение элемента!");

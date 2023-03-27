@@ -11,15 +11,17 @@ public class PrintAscendingCommand extends AbstractCommand {
     /** поле мэнеджер коллекции */
     private CollectionManager collectionManager;
     private Receiver receiver;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды printAscending
      * @param collectionManager мэнеджер коллекции
      */
-    public PrintAscendingCommand(CollectionManager collectionManager, Receiver receiver){
+    public PrintAscendingCommand(CollectionManager collectionManager, Receiver receiver, ExceptionValidator eValidator){
         super("print_ascending", "вывести элементы коллекции в порядке возрастания");
         this.collectionManager = collectionManager;
         this.receiver = receiver;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -30,7 +32,7 @@ public class PrintAscendingCommand extends AbstractCommand {
      */
     public boolean execute(String argument){
         try{
-            if(!argument.isEmpty()) throw new IncorrectlyInstalledElement();
+            eValidator.noArgument(argument);
             receiver.printAscending();
             return true;
         }catch (IncorrectlyInstalledElement e){

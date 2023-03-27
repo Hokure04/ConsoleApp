@@ -13,17 +13,19 @@ public class RemoveAllByNumberOfParticipantsCommand extends AbstractCommand {
     /** поле переговорщик с пользователем */
     private NegotiatorWithUser nGW;
     private Receiver receiver;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды printAscending
      * @param collectionManager мэнеджер коллекции
      * @param nGW переговорщик с пользователем
      */
-    public RemoveAllByNumberOfParticipantsCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver){
+    public RemoveAllByNumberOfParticipantsCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver, ExceptionValidator eValidator){
         super("remove_all_by_number_of_participants ", "удалить из коллекции все элементы, значение поля numberOfParticipants которго эквивалентны заданному");
         this.collectionManager = collectionManager;
         this.nGW = nGW;
         this.receiver = receiver;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -34,11 +36,11 @@ public class RemoveAllByNumberOfParticipantsCommand extends AbstractCommand {
      */
     public boolean execute(String argument){
         try {
-            if (argument.isEmpty()) throw new IncorrectlyInstalledElement();
-            if (collectionManager.learnCollectionSize() == 0) throw new NothingInTheCollectionException();
+            eValidator.argument(argument);
+            eValidator.nullCollection(collectionManager);
             int numberOfParticipants = Integer.parseInt(argument);
             MusicBand musicBand = collectionManager.getByNumberOfParticipants(numberOfParticipants);
-            if (musicBand == null) throw new MusicBandDoesNotExistException();
+            eValidator.doesntExist(musicBand);
             receiver.removeAllByNumberOfParticipants(numberOfParticipants);
             System.out.println("Музыкальные группы успешно удалены!");
             return true;

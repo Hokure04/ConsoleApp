@@ -10,14 +10,16 @@ import exceptions.*;
 public class ExecuteScriptCommand extends AbstractCommand {
     /** поле переговорщик с пользователем */
     private NegotiatorWithUser nGW;
+    private ExceptionValidator eValidator;
 
     /**
      * Конструктор - создание команды executeScript
      * @param nGW переговорщик с пользователем
      */
-    public ExecuteScriptCommand(NegotiatorWithUser nGW){
+    public ExecuteScriptCommand(NegotiatorWithUser nGW, ExceptionValidator eValidator){
         super("execute_script file_name","считать и исполнить скрипт из указанного файла");
         this.nGW = nGW;
+        this.eValidator = eValidator;
     }
 
     /**
@@ -29,9 +31,8 @@ public class ExecuteScriptCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument){
         try{
-            if(argument.isEmpty()) throw new IncorrectlyInstalledElement();
+            eValidator.argument(argument);
             System.out.println("Считывание скрипта");
-
             return true;
         }catch (IncorrectlyInstalledElement e){
             System.out.println("Установлено неправильное значение элемента!");

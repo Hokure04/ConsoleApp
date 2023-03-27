@@ -14,8 +14,6 @@ public class Invoker {
     private final int historySize = 9;
     /** поле массив истории команд */
     private String[] commandHistory = new String[historySize];
-    /** поле коллекция - лист, содержащий команды */
-    private List<Command> commands = new ArrayList<>();
     /** поля команды */
     private Command helpCommand;
     private Command infoCommand;
@@ -34,6 +32,7 @@ public class Invoker {
     private Command countGreaterThanStudioCommand;
     private Command printAscendingCommand;
     private Map<String, Command> map = new HashMap<String, Command>();
+    private ExceptionValidator eValidator;
 
 
     /**
@@ -75,25 +74,6 @@ public class Invoker {
         this.countGreaterThanStudioCommand = countGreaterThanStudioCommand;
         this.printAscendingCommand = printAscendingCommand;
 
-        /**
-         * добавление всех команд в список
-         */
-        commands.add(helpCommand);
-        commands.add(infoCommand);
-        commands.add(showCommand);
-        commands.add(updateIdCommand);
-        commands.add(removeByIdCommand);
-        commands.add(clearCommand);
-        commands.add(saveCommand);
-        commands.add(executeScriptCommand);
-        commands.add(exitCommand);
-        commands.add(removeGreaterCommand);
-        commands.add(removeLowerCommand);
-        commands.add(historyCommand);
-        commands.add(removeAllByNumberOfParticipantsCommand);
-        commands.add(countGreaterThanStudioCommand);
-        commands.add(printAscendingCommand);
-
         map.put("info",infoCommand);
         map.put("show", showCommand);
         map.put("add", addCommand);
@@ -133,19 +113,11 @@ public class Invoker {
     }
 
     /**
-     * функция получения списка команд
-     * @return возвращает весь список команд
-     */
-    public List<Command> getCommands(){
-        return commands;
-    }
-
-    /**
      * функция, которая добавляет команду в историю
      * @param commandChest возвращает команды, которые находятся в массиве
      */
     public void addToHistory(String commandChest){
-        for (Command command : commands) {
+        for (Command command : map.values()) {
             if (command.getName().split(" ")[0].equals(commandChest)) {
                 for (int i = historySize - 1; i > 0; i--) {
                     commandHistory[i] = commandHistory[i - 1];
@@ -173,7 +145,7 @@ public class Invoker {
     public boolean help(String argument1, String argument2){
             if (argument1.equals("help")) {
                 if (map.get(argument1).execute(argument2)) {
-                    for (Command command : commands) {
+                    for (Command command : map.values()) {
                         System.out.printf("%-37s%-1s%n", command.getName(), command.getDescription());
                     }
                 } return true;

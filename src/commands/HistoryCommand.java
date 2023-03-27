@@ -8,12 +8,13 @@ import exceptions.*;
  * Класс команда history наследующийся от абстрактного класса Commands.AbstractCommand
  */
 public class HistoryCommand extends AbstractCommand {
-
+    private ExceptionValidator eValidator;
     /**
      * Конструктор - создание команды history
      */
-    public HistoryCommand(CollectionManager collectionManager){
+    public HistoryCommand(ExceptionValidator eValidator, CollectionManager collectionManager){
         super("history","вывести последние 9 команд");
+        this.eValidator = eValidator;
     }
 
     /**
@@ -25,7 +26,7 @@ public class HistoryCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument){
         try{
-            if(!argument.isEmpty()) throw new HistoryIsEmptyException();
+            eValidator.emptyHistory(argument);
             return true;
         }catch (HistoryIsEmptyException e){
             System.out.println("История команд пуста!");
