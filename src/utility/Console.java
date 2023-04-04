@@ -45,7 +45,7 @@ public class Console {
                 commandStat = launchCommand(userCommand);
             }while (commandStat != 2);
         }catch (NoSuchElementException e){
-            System.out.println("Вы ничего не ввели!");
+            System.out.println("Вы ничего не ввели! Пожалуйста введите хоть что-то");
         }catch (IllegalStateException e){
             System.out.println("Ошибка не распознана");
         }
@@ -80,12 +80,12 @@ public class Console {
             negotiator.setUserScanner(secondScanner);
             negotiator.setUserMode();
             if (commandStatus == 1 && !(userCommand[0].equals("execute_script") && !userCommand[1].isEmpty()))
-                System.out.println("Приложение не может исполнить данный скрипт!");
+                System.out.println("Приложение не может исполнить данный скрипт! Так как в нём находятся не премлимые команды");
             return commandStatus;
         }catch (FileNotFoundException e){
             System.out.println("Файл не найден!");
         }catch (NoSuchElementException e){
-            System.out.println("Скрипт пуст!");
+            System.out.println("Скрипт пуст! Заполните его командами и попробуйте снова");
         }catch (IllegalStateException e){
             System.out.println("Неизвестная ошибка!");
             System.exit(0);

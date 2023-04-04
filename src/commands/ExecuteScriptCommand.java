@@ -35,7 +35,7 @@ public class ExecuteScriptCommand extends AbstractCommand {
             System.out.println("Считывание скрипта");
             return true;
         }catch (IncorrectlyInstalledElement e){
-            System.out.println("Установлено неправильное значение элемента!");
+            System.out.println("Установлено неправильное значение элемента! Вы дожны обязательно указать файл в котором находиться скрипт");
         }return false;
     }
 }

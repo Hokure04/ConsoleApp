@@ -295,7 +295,7 @@ public class Invoker {
                 }
                 return true;
             } catch (HistoryIsEmptyException e) {
-                System.out.println("История команд пуста!");
+                System.out.println("История команд пуста! Введите какую-нибудь команду");
             }
         }
         return false;

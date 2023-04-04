@@ -37,17 +37,16 @@ public class CountGreaterThanStudioCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument){
         try {
-            eValidator.noArgument(argument);
+            eValidator.argument(argument);
             eValidator.nullCollection(collectionManager);
-            String studioName = nGW.askStudioName();
-            Studio collectionStudio = collectionManager.getByStudioName(studioName);
+            Studio collectionStudio = collectionManager.getByStudioName(argument);
             eValidator.studioDoesntExist(collectionStudio);
             receiver.countGreaterThanStudio(collectionStudio);
             return true;
         }catch (IncorrectlyInstalledElement e){
-            System.out.println("Установлено неправильное значение элемента!");
+            System.out.println("Установлено неправильное значение элемента! Вы должны ввести команду и назвние студии");
         }catch (NothingInTheCollectionException e){
-            System.out.println("Коллекция пуста!");
+            System.out.println("Коллекция пуста! Веедите в неё данные и повторите попытку");
         }catch (StudioDoesNotExistException e){
             System.out.println("Элемента с такой студией в коллекции нет!");
         }

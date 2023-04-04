@@ -1,9 +1,15 @@
 package commands;
 
-import utility.*;
-import exceptions.*;
+import data.MusicBand;
+import exceptions.IncorrectlyInstalledElement;
+import exceptions.MusicBandDoesNotExistException;
+import exceptions.NothingInTheCollectionException;
+import utility.CollectionManager;
+import utility.ExceptionValidator;
+import utility.NegotiatorWithUser;
+import utility.Receiver;
+
 import java.time.LocalDateTime;
-import data.*;
 
 /**
  * Класс команда Commands.RemoveLowerCommand наследующийся от абстрактного класса Commands.AbstractCommand
@@ -57,11 +63,11 @@ public class RemoveLowerCommand extends AbstractCommand {
             System.out.println("Группы меньше заданной удалены!");
             return true;
         }catch (IncorrectlyInstalledElement e){
-            System.out.println("Установлено неправильное значение элемента!");
+            System.out.println("Установлено неправильное значение элемента! Вы должны ввести просто команду без каких-либо аргументов");
         }catch (MusicBandDoesNotExistException e){
             System.out.println("Данного элемента в коллекции нет!");
         }catch (NothingInTheCollectionException e){
-            System.out.println("Коллекция пуста!");
+            System.out.println("Коллекция пуста! Веедите в неё данные и повторите попытку");
         }
         return false;
     }

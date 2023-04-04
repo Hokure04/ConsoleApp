@@ -1,9 +1,13 @@
 package utility;
 
+import data.Coordinates;
+import data.MusicGenre;
+import data.Studio;
+import exceptions.LessThanZeroException;
+import exceptions.MustBeNotEmptyException;
+
 import java.util.Objects;
 import java.util.Scanner;
-import exceptions.*;
-import data.*;
 
 /**
  * Класс NegotiatorWithUser предназначеный для того, чтобы задавать пользователю вопросы
@@ -69,11 +73,11 @@ public class NegotiatorWithUser {
                 eValidator.emptyString(name);
                 break;
             }catch (NumberFormatException exception){
-                System.out.println("Данные введены неверно!");
+                System.out.println("Данные введены неверно! Введите приемлимое имя");
             }catch (MustBeNotEmptyException exception){
                 System.out.println("Значение обязательно должно быть введено!");
             }catch (NullPointerException e){
-                System.out.println("Не должно быть null");
+                System.out.println("Не должно быть null. Пожалуйста, введите имя");
             }
         }
         return name;
@@ -93,9 +97,9 @@ public class NegotiatorWithUser {
                 eValidator.zeroAndLower(id);
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно!");
+                System.out.println("Данные введены неверно! id обязательно должен быть числом");
             }catch (NullPointerException e){
-                System.out.println("Значение обязательно должно быть введено!");
+                System.out.println("Значение обязательно должно быть введено! Пожалуйста введите id");
             }catch (LessThanZeroException e){
                 System.out.println("Значение должно быть больше нуля!");
             }
@@ -116,9 +120,9 @@ public class NegotiatorWithUser {
                 if (fileMode) System.out.println(x);
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно!");
+                System.out.println("Данные введены неверно! Координата x обязательно должна быть дробным числом");
             }catch (NullPointerException e){
-                System.out.println("Значение обязательно должно быть введено!");
+                System.out.println("Значение обязательно должно быть введено! Пожалуйста, введите координату");
             }
         }
         return x;
@@ -137,9 +141,9 @@ public class NegotiatorWithUser {
                 if (fileMode) System.out.println(y);
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно!");
+                System.out.println("Данные введены неверно! Координата y обязательно должна являться целым числом");
             }catch (NullPointerException e){
-                System.out.println("Значение обязательно должно быть введено!");
+                System.out.println("Значение обязательно должно быть введено! Пожалуйста введите координату");
             }
         }
         return y;
@@ -169,7 +173,7 @@ public class NegotiatorWithUser {
                 eValidator.zeroAndLower(numberOP);
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно!");
+                System.out.println("Данные введены неверно! Количество участников должно быть введено числом");
             }catch (LessThanZeroException e){
                 System.out.println("Значение должно быть больше нуля!");
             }
@@ -197,7 +201,7 @@ public class NegotiatorWithUser {
                 }
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно!");
+                System.out.println("Данные введены неверно! Количество синглов должно быть введено числом");
             }catch (LessThanZeroException e){
                 System.out.println("Значение должно быть больше нуля!");
             }
@@ -223,7 +227,7 @@ public class NegotiatorWithUser {
                 }
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно!");
+                System.out.println("Данные введены неверно! пожалуйста, введите приемлимое описание");
             }
         }
         return description;
@@ -249,9 +253,9 @@ public class NegotiatorWithUser {
                 }
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно!");
+                System.out.println("Данные введены неверно! Пожалуйста введите жанр из списка");
             }catch (IllegalArgumentException e){
-                System.out.println("Данного жанра не существует!");
+                System.out.println("Данного жанра не существует! Пожалуйста введите жанр и списка");
             }
         }
         return genre;
@@ -270,7 +274,7 @@ public class NegotiatorWithUser {
                 if (fileMode) System.out.println(studioName);
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно!");
+                System.out.println("Данные введены неверно! Пожалуйста введите приемлимое название студии");
             }catch (NullPointerException e){
                 return " ";
             }
@@ -299,7 +303,7 @@ public class NegotiatorWithUser {
                 if(fileMode) System.out.println(text);
                 break;
             } catch (MustBeNotEmptyException e) {
-                System.out.println("Значение обязательно должно быть введено!");
+                System.out.println("Значение обязательно должно быть введено! Пожалуйста введите название группы");
             }catch (NullPointerException e){
                 return null;
             }
@@ -321,7 +325,7 @@ public class NegotiatorWithUser {
                 eValidator.emptyString(answer);
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно!");
+                System.out.println("Данные введены неверно! Вы должны ответить (yes/no)");
             }catch (MustBeNotEmptyException e){
                 System.out.println("Значение обязательно должно быть введено!");
             }

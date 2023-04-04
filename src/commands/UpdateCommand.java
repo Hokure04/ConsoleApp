@@ -1,9 +1,18 @@
 package commands;
 
-import utility.*;
-import exceptions.*;
+import data.Coordinates;
+import data.MusicBand;
+import data.MusicGenre;
+import data.Studio;
+import exceptions.IncorrectlyInstalledElement;
+import exceptions.MusicBandDoesNotExistException;
+import exceptions.NothingInTheCollectionException;
+import utility.CollectionManager;
+import utility.ExceptionValidator;
+import utility.NegotiatorWithUser;
+import utility.Receiver;
+
 import java.time.LocalDateTime;
-import data.*;
 
 /**
  * Класс команда Commands.UpdateCommand наследующийся от абстрактного класса Commands.AbstractCommand
@@ -22,7 +31,7 @@ public class UpdateCommand extends AbstractCommand {
      * @param nGW переговорщик с пользователем
      */
     public UpdateCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver, ExceptionValidator eValidator){
-        super("update id {element}", "обновить значение элемента коллекции по его id");
+        super("update {element}", "обновить значение элемента коллекции по его id");
         this.collectionManager = collectionManager;
         this.nGW = nGW;
         this.receiver = receiver;
@@ -73,14 +82,15 @@ public class UpdateCommand extends AbstractCommand {
                     lDT
             ));
             System.out.println("Данные изменены");
+
             return true;
 
         }catch (IncorrectlyInstalledElement e){
-            System.out.println("Установлено неправильное значение элемента!");
+            System.out.println("Установлено неправильное значение элемента! Вы должны ввести просто команду без каких-либо аргументов");
         }catch (NothingInTheCollectionException e){
-            System.out.println("Коллекция пуста!");
+            System.out.println("Коллекция пуста! Веедите в неё данные и повторите попытку");
         }catch (MusicBandDoesNotExistException e){
-            System.out.println("Данного элемента в коллекции нет!");
+            System.out.println("Данного элемента в коллекции нет! Введите правильное значение элемента");
         }
         return false;
     }

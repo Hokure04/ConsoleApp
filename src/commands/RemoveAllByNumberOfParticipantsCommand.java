@@ -45,11 +45,11 @@ public class RemoveAllByNumberOfParticipantsCommand extends AbstractCommand {
             System.out.println("Музыкальные группы успешно удалены!");
             return true;
         }catch(IncorrectlyInstalledElement e) {
-            System.out.println("Установлено неправильное значение элемента!");
+            System.out.println("Установлено неправильное значение элемента! Пожалуйста введите количество участников по которому должны быть удалены элементы");
         }catch (NothingInTheCollectionException e){
             System.out.println("Данного элемента в коллекции нет!");
         }catch (MusicBandDoesNotExistException e){
-            System.out.println("Коллекция пуста!");
+            System.out.println("Коллекция пуста! Веедите в неё данные и повторите попытку");
         }
         return false;
     }

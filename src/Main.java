@@ -1,7 +1,5 @@
-import commands.*;
 import utility.*;
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  * Класс ConsoleApp является main классом и служит для запуска консольного приложения
@@ -10,9 +8,9 @@ class Main {
     public static void main(String[] args) throws IOException {
         try {
             ConsoleApp consoleApp = new ConsoleApp();
-            consoleApp.start(args[0], args[1]);
+            consoleApp.start(args[0]);
         }catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("Программе нужны аргументы");
+            System.out.println("Вам необходимо из командной строки передать ссылку на файл");
         }
     }
 }

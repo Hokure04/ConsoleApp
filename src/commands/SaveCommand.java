@@ -41,7 +41,7 @@ public class SaveCommand extends AbstractCommand {
             System.out.println("Коллекция успешна сохранена");
             return true;
         }catch (IncorrectlyInstalledElement e){
-            System.out.println("Установлено неправильное значение элемента!");
+            System.out.println("Установлено неправильное значение элемента! Вы должны ввести просто команду без каких-либо аргументов");
         }
         return false;
     }

@@ -29,7 +29,7 @@ public class HistoryCommand extends AbstractCommand {
             eValidator.emptyHistory(argument);
             return true;
         }catch (HistoryIsEmptyException e){
-            System.out.println("История команд пуста!");
+            System.out.println("История команд пуста! Введите хоть какую-нибудь команду и повторите попытку");
         }
         return false;
     }

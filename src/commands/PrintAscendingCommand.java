@@ -36,7 +36,7 @@ public class PrintAscendingCommand extends AbstractCommand {
             receiver.printAscending();
             return true;
         }catch (IncorrectlyInstalledElement e){
-            System.out.println("Установлено неправильное значение элемента!");
+            System.out.println("Установлено неправильное значение элемента! Вы должны ввести просто команду без каких-либо аргументов");
         }
         return false;
     }

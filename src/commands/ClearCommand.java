@@ -15,7 +15,6 @@ public class ClearCommand extends AbstractCommand {
     /**
      * Конструктор - создание команды Commands.ClearCommand
      * super - принимает имя объекта и его описание
-     * @param collectionManager
      */
     public ClearCommand(CollectionManager collectionManager, Receiver receiver, ExceptionValidator eValidator){
         super("clear","команда очищает коллекцию");
@@ -38,7 +37,7 @@ public class ClearCommand extends AbstractCommand {
             System.out.println("Коллекция полностью очищена");
             return true;
         }catch (IncorrectlyInstalledElement e){
-            System.out.println("Установлено неправильное значение элемента!");
+            System.out.println("Установлено неправильное значение элемента! Вы должны ввести просто команду без каких-либо аргументов");
         }
         return false;
     }

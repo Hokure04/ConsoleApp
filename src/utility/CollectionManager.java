@@ -1,8 +1,13 @@
 package utility;
 
+import data.MusicBand;
+import data.Studio;
+
 import java.time.LocalDateTime;
-import java.util.*;
-import data.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Класс Utility.CollectionManager осуществляющий взаимодействие с коллекцией
@@ -106,16 +111,20 @@ public class CollectionManager {
      */
     public MusicBand getByValue(MusicBand band){
         for (MusicBand mband : collection){
-            if(mband.getName().equals(band.getName())
-                    && mband.getCoordinateX().equals(band.getCoordinateX())
-                    && mband.getCoordinateY().equals(band.getCoordinateY())
-                    && mband.getNumberOfParticipants() == band.getNumberOfParticipants()
-                    && mband.getSinglesCount().equals(band.getSinglesCount())
-                    && mband.getDescription().equals(band.getDescription())
-                    && mband.getGenre().equals(band.getGenre())
-                    && mband.getStudioName().equals(band.getStudioName())
-            ){
-                return mband;
+            try {
+                if (mband.getName().equals(band.getName())
+                        && mband.getCoordinateX().equals(band.getCoordinateX())
+                        && mband.getCoordinateY().equals(band.getCoordinateY())
+                        && mband.getNumberOfParticipants() == band.getNumberOfParticipants()
+                        && mband.getSinglesCount().equals(band.getSinglesCount())
+                        && mband.getDescription().equals(band.getDescription())
+                        && mband.getGenre().equals(band.getGenre())
+                        && mband.getStudioName().equals(band.getStudioName())
+                ) {
+                    return mband;
+                }
+            }catch (NullPointerException e){
+                System.out.println("Данный элемент сравнивать нельзя, так как его значения содержат null элементы");
             }
         }
         return null;
@@ -141,13 +150,21 @@ public class CollectionManager {
         collection.remove(mband);
     }
 
+    public int maxId(){
+        int max = Integer.MIN_VALUE;
+        for(MusicBand mband : collection){
+            if(mband.getId() > max) max = mband.getId();
+        }
+        return max;
+    }
+
     /**
      * функция, которая создаёт id для нового элемента коллекции
      * @return возвращает новое id для объекта
      */
     public Integer generateNextId(){
         if(collection.isEmpty()) return 1;
-        else return collection.getLast().getId()+1;
+        else return this.maxId()+1;
     }
 
 

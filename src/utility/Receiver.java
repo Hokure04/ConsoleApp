@@ -13,10 +13,10 @@ public class Receiver {
     private CollectionManager collectionManager;
     /** поле время последнего сохранения */
     private LocalDateTime lastSaveTime;
+    private LocalDateTime lastUseTime;
 
     public Receiver(CollectionManager collectionManager){
         this.collectionManager = collectionManager;
-        this.lastSaveTime = null;
     }
 
 
@@ -34,7 +34,7 @@ public class Receiver {
 
     public void show(){
         for (MusicBand mband : CollectionManager.collection) {
-            System.out.println(mband.getId() + " " + mband.getName() + " " + mband.getCoordinateX() + " " + mband.getCoordinateY() + " " + mband.getNumberOfParticipants() + " " + mband.getSinglesCount() + " " + mband.getDescription() + " " + mband.getGenre() + " " + mband.getStudioName());
+            System.out.println(mband.getId() + ", " + mband.getName() + ", " + mband.getCoordinateX() + ", " + mband.getCoordinateY() + ", " + mband.getNumberOfParticipants() + ", " + mband.getSinglesCount() + ", " + mband.getDescription() + ", " + mband.getGenre() + ", " + mband.getStudioName());
         }
     }
 
@@ -74,13 +74,21 @@ public class Receiver {
      * @param studio студия, которую вводит пользователь
      */
     public void countGreaterThanStudio(Studio studio){
-        int i = 0;
-        for(MusicBand mband : CollectionManager.collection){
-            if(mband.getStudioName().compareTo(studio.getName()) > studio.getName().compareTo(mband.getStudioName())){
-                i += 1;
+            int i = 0;
+            try {
+                for (MusicBand mband : CollectionManager.collection) {
+                    if (mband.getStudioName().compareTo(studio.getName()) > studio.getName().compareTo(mband.getStudioName())) {
+                        if (studio.getName() == null) {
+                            System.out.println("Невозможно осуществить сравнение с null элементом");
+                        } else {
+                            i += 1;
+                        }
+                    }
+                }
+            }catch (NullPointerException e){
+                System.out.println("Нельзя сравнивать с null значением");
             }
-        }
-        System.out.println(i);
+            System.out.println(i);
     }
 
     /**
@@ -110,6 +118,7 @@ public class Receiver {
         for (MusicBand mband : list){
             collectionManager.getCollection().add(mband);
         }
+        lastUseTime = LocalDateTime.now();
         try {
             fileManager.save(collectionManager.getCollection());
             lastSaveTime = LocalDateTime.now();

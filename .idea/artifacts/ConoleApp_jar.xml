@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ConoleApp:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ConoleApp_jar</output-path>
+    <root id="archive" name="ConoleApp.jar">
+      <element id="module-output" name="ConoleApp" />
+    </root>
+  </artifact>
+</component>

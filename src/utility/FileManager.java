@@ -1,35 +1,39 @@
 package utility;
 
-import java.io.*;
+import data.Coordinates;
+import data.MusicBand;
+import data.MusicGenre;
+import data.Studio;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
-import data.*;
+
 
 /**
  * Класс Utility.FileManager осуществляющий работу с файлом
  */
 public class FileManager {
     /** поле имя первого файла */
-    private String filename1;
-    /** поле имя второго файла */
-    private String filename2;
+    private String filename;
     /** поле мэнеджер коллекции */
     private final CollectionManager collectionManager;
     private Receiver receiver;
-    public static int j = 0;
+
 
 
     /**
      * Конструктор создающий объект Utility.FileManager
-     * @param filename1 имя первого файла
-     * @param filename2 имя второго файла
+     * @param filename имя первого файла
      * @param coolM мэнеджер коллекции
      */
-    public FileManager(String filename1, String filename2, CollectionManager coolM,Receiver receiver){
-        this.filename1 = filename1;
-        this.filename2 = filename2;
+    public FileManager(String filename,CollectionManager coolM,Receiver receiver){
+        this.filename = filename;
         this.collectionManager = coolM;
         this.receiver = receiver;
     }
@@ -37,32 +41,23 @@ public class FileManager {
     /**
      * функция считывает данные и файла в csv формате и конвертирует их в обычный формат представления данных
      */
-    public void read() {
-
+    public void read(String filename) {
         try {
-            Path path = Paths.get(filename1);
-            Scanner sc = new Scanner(path);
-            sc.useDelimiter("\\r\\n");
-            while (sc.hasNext()) {
-                Scanner scanner = new Scanner(sc.next());
-                scanner.useDelimiter(",");
-                String str;
-                List<String> listOfStrings = new ArrayList<String>();
-                while (scanner.hasNext()) {
-                    str = scanner.next();
-                    listOfStrings.add(str);
-                }
-                scanner.close();
-                String[] array = listOfStrings.toArray(new String[0]);
-                List<String> list = new ArrayList<>();
-                for (int i = 0; i < array.length; i++) {
-                    list.add(array[i]);
-                }
+            Path path = Paths.get(filename);
+            List<List<String>> data = new ArrayList<>();
+            Scanner scanner = new Scanner(path);
+            while (scanner.hasNextLine()){
+                List<String> lineData = Arrays.asList(scanner.nextLine().split(","));
+                data.add(lineData);
+            }
+            for(List<String> list : data){
                 objectCreator(list);
             }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            scanner.close();
+        }catch (NullPointerException e){
+            System.out.println("В файле находиться недопустимое значение");
+        } catch (IOException e) {
+            System.out.println("Неизвестная ошибка");
         }
     }
 
@@ -71,7 +66,6 @@ public class FileManager {
      * @param list список в котором хранятся все данные, полученные при выполнении метода read()
      */
     private  void objectCreator(List<String> list){
-        j++;
         try{
             Integer id = Integer.valueOf(list.get(0));
             String name = list.get(1);
@@ -86,13 +80,13 @@ public class FileManager {
             Studio studio = new Studio(studioName);
             String[] birthday = list.get(9).split("-");
             LocalDateTime localDateTime = LocalDateTime.of(
-                    Integer.parseInt(birthday[2]), Integer.parseInt(birthday[1]),Integer.parseInt(birthday[0]),0,0
+                    Integer.parseInt(birthday[0]), Integer.parseInt(birthday[1]),Integer.parseInt(birthday[2]),0,0
             );
             MusicBand mband = new MusicBand(id, name, coordinates, participants,singlesCount,description,genre, studio,localDateTime);
             receiver.add(mband);
             collectionManager.sortedCollection();
         } catch (NumberFormatException e) {
-            throw new RuntimeException(e);
+            System.out.println("В файле находиться недопустимое значение");
         }
     }
 
@@ -102,7 +96,7 @@ public class FileManager {
      * @throws IOException
      */
     public void save(ArrayDeque<MusicBand> collection) throws IOException {
-        try(OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(filename2))){
+        try(OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(filename))){
             for(MusicBand i : collection){
                 Integer id = i.getId();
                 String name = i.getName();
@@ -114,11 +108,13 @@ public class FileManager {
                 MusicGenre genre = i.getGenre();
                 String studio = i.getStudioName();
                 LocalDateTime ldT = i.getCreationDate();
-                String line = String.valueOf(id)+","+name+","+String.valueOf(x)+","+String.valueOf(y)+","+String.valueOf(participants)+","+String.valueOf(singlesCount)+","+description+","+String.valueOf(genre)+","+studio+","+String.valueOf(ldT)+"\n";
+                String stringDate = ldT.toString().substring(0,10);
+                String line = String.valueOf(id)+","+name+","+String.valueOf(x)+","+String.valueOf(y)+","+String.valueOf(participants)+","+String.valueOf(singlesCount)+","+description+","+String.valueOf(genre)+","+studio+","+String.valueOf(stringDate)+"\n";
                 outputStreamWriter.write(line);
             }
         }catch (FileNotFoundException e){
-            System.out.println("Файл не найден, исправьте эту ошибку и возвращайтесь :)");
+            System.out.println("Файл не найден, создайте файл или если вы открыли файл, закройте его для того, чтобы программа могла с ним работать:)");
         }
     }
+
 }

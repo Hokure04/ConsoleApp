@@ -1,9 +1,13 @@
 package commands;
 
-import utility.*;
-import exceptions.*;
+import data.MusicBand;
+import exceptions.IncorrectlyInstalledElement;
+import utility.CollectionManager;
+import utility.ExceptionValidator;
+import utility.NegotiatorWithUser;
+import utility.Receiver;
+
 import java.time.LocalDateTime;
-import data.*;
 
 /**
  * Класс команда add наследующийся от абстрактного класса Commands.AbstractCommand
@@ -19,8 +23,6 @@ public class AddCommand extends AbstractCommand {
     /**
      * Конструктор - создание команды Commands.AddCommand
      * super - принимает имя объекта и его описание
-     * @param collectionManager
-     * @param nGW
      */
     public AddCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver, ExceptionValidator eValidator){
         super("add {element}", "добавляет элемент в коллекцию");
@@ -54,7 +56,7 @@ public class AddCommand extends AbstractCommand {
             System.out.println("Музыкальная группа добавлена");
             return true;
         }catch (IncorrectlyInstalledElement e){
-            System.out.println("Установлено неправильное значение элемента!");
+            System.out.println("Установлено неправильное значение элемента! Вы должны ввести просто команду без каких-либо аргументов");
         }
         return false;
     }

@@ -1,20 +1,19 @@
 package utility;
 
 import commands.*;
-
 import java.util.Scanner;
 
 public class ConsoleApp {
-    public void start(String args1, String args2) {
+    public void start(String args1) {
         try (Scanner scan = new Scanner(System.in)) {
-            if (args1 == null || args2 == null) {
-                  System.out.println("This program need an argument");
+            if (args1 == null) {
+                System.out.println("Пожалуйста передайте ссылку на файл через командную строку");
             }
 
             CollectionManager collectionManager = new CollectionManager();
             Receiver receiver = new Receiver(collectionManager);
-            FileManager fileManager = new FileManager(args1, args2, collectionManager, receiver);
-            fileManager.read();
+            FileManager fileManager = new FileManager(args1,collectionManager, receiver);
+            fileManager.read(args1);
             ExceptionValidator eValidator = new ExceptionValidator(collectionManager);
             NegotiatorWithUser nGW = new NegotiatorWithUser(scan, eValidator);
 
