@@ -8,5 +8,6 @@ public enum MusicGenre {
     RAP,
     SOUL,
     POST_PUNK,
-    BRIT_POP
+    BRIT_POP,
+    NULL
 }

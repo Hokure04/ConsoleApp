@@ -47,7 +47,9 @@ public class FileManager {
             List<List<String>> data = new ArrayList<>();
             Scanner scanner = new Scanner(path);
             while (scanner.hasNextLine()){
-                List<String> lineData = Arrays.asList(scanner.nextLine().split(","));
+                String scan = scanner.nextLine();
+                if(scan.equals("sep=;")) continue;
+                List<String> lineData = Arrays.asList(scan.split(";"));
                 data.add(lineData);
             }
             for(List<String> list : data){
@@ -87,6 +89,8 @@ public class FileManager {
             collectionManager.sortedCollection();
         } catch (NumberFormatException e) {
             System.out.println("В файле находиться недопустимое значение");
+        }catch (IllegalArgumentException e){
+
         }
     }
 
@@ -97,6 +101,7 @@ public class FileManager {
      */
     public void save(ArrayDeque<MusicBand> collection) throws IOException {
         try(OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(filename))){
+            outputStreamWriter.write("sep=;\n");
             for(MusicBand i : collection){
                 Integer id = i.getId();
                 String name = i.getName();
@@ -109,7 +114,7 @@ public class FileManager {
                 String studio = i.getStudioName();
                 LocalDateTime ldT = i.getCreationDate();
                 String stringDate = ldT.toString().substring(0,10);
-                String line = String.valueOf(id)+","+name+","+String.valueOf(x)+","+String.valueOf(y)+","+String.valueOf(participants)+","+String.valueOf(singlesCount)+","+description+","+String.valueOf(genre)+","+studio+","+String.valueOf(stringDate)+"\n";
+                String line = String.valueOf(id)+";"+name+";"+String.valueOf(x)+";"+String.valueOf(y)+";"+String.valueOf(participants)+";"+String.valueOf(singlesCount)+";"+description+";"+String.valueOf(genre)+";"+studio+";"+String.valueOf(stringDate)+"\n";
                 outputStreamWriter.write(line);
             }
         }catch (FileNotFoundException e){

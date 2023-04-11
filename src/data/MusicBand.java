@@ -9,7 +9,7 @@ public class MusicBand implements Comparable<MusicBand>{
     /** поле id */
     private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     /** поле название музыкальной группы */
-    private String name; //Поле не может быть null, Строка не может быть пустой
+    private String name = ""; //Поле не может быть null, Строка не может быть пустой
     /** поле координаты музыкальной группы */
     private Coordinates coordinates; //Поле не может быть null
     /** поле время добавления или создания элемента в коллекции */
@@ -19,7 +19,7 @@ public class MusicBand implements Comparable<MusicBand>{
     /** поле количество синглов */
     private Integer singlesCount; //Поле может быть null, Значение поля должно быть больше 0
     /** поле описание */
-    private String description; //Поле может быть null
+    private String description = ""; //Поле может быть null
     /** поле жанр группы */
     private MusicGenre genre; //Поле может быть null
     /** поле студия */
@@ -157,7 +157,7 @@ public class MusicBand implements Comparable<MusicBand>{
         try {
             return studio.getName();
         } catch (NullPointerException e) {
-            return null;
+            return "Непредвиденная ошибка!";
         }
     }
 
@@ -169,8 +169,9 @@ public class MusicBand implements Comparable<MusicBand>{
         try {
             return studio;
         }catch (NullPointerException e){
-            return null;
+            System.out.println("непредвиденная ошибка");
         }
+        return studio;
     }
 
     /**

@@ -4,10 +4,13 @@ import data.Coordinates;
 import data.MusicGenre;
 import data.Studio;
 import exceptions.LessThanZeroException;
+import exceptions.MoreThanTwoFourSevenException;
 import exceptions.MustBeNotEmptyException;
+import exceptions.ShieldSignException;
 
-import java.util.Objects;
 import java.util.Scanner;
+
+import static data.MusicGenre.NULL;
 
 /**
  * Класс NegotiatorWithUser предназначеный для того, чтобы задавать пользователю вопросы
@@ -71,6 +74,7 @@ public class NegotiatorWithUser {
                 name = userScanner.nextLine().trim();
                 if (fileMode) System.out.println(name);
                 eValidator.emptyString(name);
+                eValidator.shieldSignException(name);
                 break;
             }catch (NumberFormatException exception){
                 System.out.println("Данные введены неверно! Введите приемлимое имя");
@@ -78,6 +82,8 @@ public class NegotiatorWithUser {
                 System.out.println("Значение обязательно должно быть введено!");
             }catch (NullPointerException e){
                 System.out.println("Не должно быть null. Пожалуйста, введите имя");
+            }catch (ShieldSignException e){
+                System.out.println("Нельзя использоватб ; в названии музыкальной группы");
             }
         }
         return name;
@@ -118,11 +124,14 @@ public class NegotiatorWithUser {
                 System.out.println("Введите координату x:");
                 x = Float.valueOf(userScanner.nextLine());
                 if (fileMode) System.out.println(x);
+                eValidator.twoFourSevenAndGreater(x);
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Данные введены неверно! Координата x обязательно должна быть дробным числом");
             }catch (NullPointerException e){
                 System.out.println("Значение обязательно должно быть введено! Пожалуйста, введите координату");
+            }catch (MoreThanTwoFourSevenException e){
+                System.out.println("Значение превышает допустимое. Максимальное значение 247");
             }
         }
         return x;
@@ -193,12 +202,8 @@ public class NegotiatorWithUser {
                 System.out.println("Введите количество синглов:");
                 singlesCountText = userScanner.nextLine();
                 if (fileMode) System.out.println(singlesCountText);
-                if (singlesCountText.equals("")){
-                    singlesCount = null;
-                }else if (!singlesCountText.equals("")){
-                    singlesCount = Integer.valueOf(singlesCountText);
-                    eValidator.zeroAndLower(singlesCount);
-                }
+                singlesCount = Integer.valueOf(singlesCountText);
+                eValidator.zeroAndLower(singlesCount);
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Данные введены неверно! Количество синглов должно быть введено числом");
@@ -219,15 +224,18 @@ public class NegotiatorWithUser {
             try {
                 System.out.println("Введите описание группы:");
                 description = userScanner.nextLine().trim();
+                eValidator.shieldSignException(description);
                 if (fileMode) System.out.println(description);
                 if(description.equals("")){
-                    return null;
+                    return "there is no description";
                 } else if(!description.equals("")){
                     return description;
                 }
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Данные введены неверно! пожалуйста, введите приемлимое описание");
+            }catch (ShieldSignException e){
+                System.out.println("Нельзя использовать ; в описании группы");
             }
         }
         return description;
@@ -247,7 +255,7 @@ public class NegotiatorWithUser {
                 genreText = userScanner.nextLine();
                 if (fileMode) System.out.println(genreText);
                 if(genreText.equals("")){
-                    genre = null;
+                    genre = NULL;
                 }if(!genreText.equals("")){
                     genre = MusicGenre.valueOf(genreText);
                 }
@@ -271,12 +279,18 @@ public class NegotiatorWithUser {
             try {
                 System.out.println("Введите название студии:");
                 studioName = userScanner.nextLine();
+                eValidator.emptyString(studioName);
+                eValidator.shieldSignException(studioName);
                 if (fileMode) System.out.println(studioName);
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Данные введены неверно! Пожалуйста введите приемлимое название студии");
             }catch (NullPointerException e){
-                return " ";
+                System.out.println("Недопустимое значение");
+            }catch (MustBeNotEmptyException e){
+                return "no studio name";
+            }catch (ShieldSignException e){
+                System.out.println("Нельзя использовать ; в названии студии");
             }
         }
         return studioName;
@@ -288,24 +302,15 @@ public class NegotiatorWithUser {
      */
     public Studio askStudio(){
         String text;
-        Studio stud = null;
+        Studio stud;
         while (true) {
             try {
-                System.out.println("Есть ли у данной группы студия? (yes/no)");
-                text = userScanner.nextLine();
-                if (Objects.equals(text, "yes")) {
-                    eValidator.emptyString(text);
-                    String studioName = this.askStudioName();
-                    stud = new Studio(studioName);
-                } else if (Objects.equals(text, "no")) {
-                    stud = null;
-                }
-                if(fileMode) System.out.println(text);
+                System.out.println();
+                String studioName = this.askStudioName();
+                stud = new Studio(studioName);
                 break;
-            } catch (MustBeNotEmptyException e) {
-                System.out.println("Значение обязательно должно быть введено! Пожалуйста введите название группы");
             }catch (NullPointerException e){
-                return null;
+                System.out.println("Значение обязательно должно быть введено! Пожалуйста выберите один из вариантов");
             }
         }return stud;
     }

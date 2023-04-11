@@ -19,6 +19,13 @@ public class ExceptionValidator {
         if (i <= 0) throw new LessThanZeroException();
     }
 
+    public void twoFourSevenAndGreater(float i) throws MoreThanTwoFourSevenException{
+        if(i>247) throw new MoreThanTwoFourSevenException();
+    }
+    public void shieldSignException(String text) throws ShieldSignException{
+        if(text.contains(";")) throw new  ShieldSignException();
+    }
+
     public void emptyString(String isEmpty) throws MustBeNotEmptyException {
         if (isEmpty.equals("")) throw new MustBeNotEmptyException();
     }
