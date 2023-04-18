@@ -1,6 +1,8 @@
 package utility;
 
 import commands.*;
+import exceptions.DuplicateIdException;
+
 import java.util.Scanner;
 
 public class ConsoleApp {
@@ -16,7 +18,7 @@ public class ConsoleApp {
             fileManager.read(args1);
             ExceptionValidator eValidator = new ExceptionValidator(collectionManager);
             NegotiatorWithUser nGW = new NegotiatorWithUser(scan, eValidator);
-
+            eValidator.findDuplicate();
 
             Invoker invoker = new Invoker(
                     new HelpCommand(eValidator),
@@ -41,6 +43,8 @@ public class ConsoleApp {
             console.start();
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Не введенный значения файлов, для их ввода воспользуйтесь терминалом!");
+        } catch (DuplicateIdException e) {
+            System.out.println("В файле повторяется id");
         }
     }
 }

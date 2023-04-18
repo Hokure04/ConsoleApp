@@ -83,7 +83,7 @@ public class NegotiatorWithUser {
             }catch (NullPointerException e){
                 System.out.println("Не должно быть null. Пожалуйста, введите имя");
             }catch (ShieldSignException e){
-                System.out.println("Нельзя использоватб ; в названии музыкальной группы");
+                System.out.println("Нельзя использовать ; в названии музыкальной группы");
             }
         }
         return name;

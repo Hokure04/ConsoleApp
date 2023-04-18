@@ -89,8 +89,6 @@ public class FileManager {
             collectionManager.sortedCollection();
         } catch (NumberFormatException e) {
             System.out.println("В файле находиться недопустимое значение");
-        }catch (IllegalArgumentException e){
-
         }
     }
 

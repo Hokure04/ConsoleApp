@@ -4,6 +4,8 @@ import data.MusicBand;
 import data.Studio;
 import exceptions.*;
 
+import java.util.ArrayDeque;
+
 public class ExceptionValidator {
     public CollectionManager collectionManager;
 
@@ -54,4 +56,7 @@ public class ExceptionValidator {
         if (argument.isEmpty()) throw new IncorrectlyInstalledElement();
     }
 
+    public void findDuplicate() throws DuplicateIdException{
+        if(!collectionManager.areAllDistinct()) throw new DuplicateIdException();
+    }
 }

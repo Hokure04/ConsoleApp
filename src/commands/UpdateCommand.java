@@ -13,6 +13,7 @@ import utility.NegotiatorWithUser;
 import utility.Receiver;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 /**
  * Класс команда Commands.UpdateCommand наследующийся от абстрактного класса Commands.AbstractCommand
@@ -91,6 +92,9 @@ public class UpdateCommand extends AbstractCommand {
             System.out.println("Коллекция пуста! Веедите в неё данные и повторите попытку");
         }catch (MusicBandDoesNotExistException e){
             System.out.println("Данного элемента в коллекции нет! Введите правильное значение элемента");
+        }catch (NoSuchElementException e){
+            System.out.println("Было нажато сочетание клавиш ctrl+d программа экстренно прервана");
+            System.exit(0);
         }
         return false;
     }

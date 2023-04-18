@@ -35,7 +35,8 @@ public class Receiver {
     public void show(){
 
         for (MusicBand mband : CollectionManager.collection) {
-            System.out.println(mband.getId() + ", " + mband.getName() + ", " + mband.getCoordinateX() + ", " + mband.getCoordinateY() + ", " + mband.getNumberOfParticipants() + ", "+mband.getSinglesCount() + ", " + mband.getDescription() + ", " + mband.getGenre() + ", " + mband.getStudioName());
+            System.out.printf("%1s %16s %10s %5s %5s %5s %20s %10s %12s", mband.getId(), mband.getName(), mband.getCoordinateX(), mband.getCoordinateY(), mband.getNumberOfParticipants(), mband.getSinglesCount(), mband.getDescription(), mband.getGenre(), mband.getStudioName());
+            System.out.println();
         }
     }
 

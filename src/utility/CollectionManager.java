@@ -182,9 +182,14 @@ public class CollectionManager {
         ArrayList<MusicBand> list = new ArrayList<>(collection);
         collection.clear();
         Collections.reverse(list);
-        for (MusicBand mband : list){
+        for (MusicBand mband : list) {
             collection.add(mband);
         }
         return collection;
+
+    }
+
+    public boolean areAllDistinct(){
+        return this.getCollection().stream().map(MusicBand :: getId).distinct().count() == this.getCollection().size();
     }
 }

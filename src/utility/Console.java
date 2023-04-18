@@ -2,7 +2,10 @@ package utility;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  * Класс Utility.Console, которая осуществляет взаимодействие пользователя и вводимых им команд
@@ -45,7 +48,7 @@ public class Console {
                 commandStat = launchCommand(userCommand);
             }while (commandStat != 2);
         }catch (NoSuchElementException e){
-            System.out.println("Вы ничего не ввели! Пожалуйста введите хоть что-то");
+            System.out.println("Было нажато сочетание клавиш ctrl+d программа экстренно прервана");
         }catch (IllegalStateException e){
             System.out.println("Ошибка не распознана");
         }
@@ -75,14 +78,15 @@ public class Console {
                     userCommand[1] = userCommand[1].trim();
                 }
                 System.out.println(String.join(" ", userCommand));
-                commandStatus = launchCommand(userCommand);
+                commandStatus = launchCommand(userCommand,argument);
             }while (commandStatus == 0 && scriptScan.hasNextLine());
             negotiator.setUserScanner(secondScanner);
             negotiator.setUserMode();
             if (commandStatus == 1 && !(userCommand[0].equals("execute_script") && !userCommand[1].isEmpty()))
                 System.out.println("Приложение не может исполнить данный скрипт! Так как в нём находятся не премлимые команды");
             return commandStatus;
-        }catch (FileNotFoundException e){
+        }
+        catch (FileNotFoundException e){
             System.out.println("Файл не найден!");
         }catch (NoSuchElementException e){
             System.out.println("Скрипт пуст! Заполните его командами и попробуйте снова");
@@ -99,6 +103,24 @@ public class Console {
      * проверка того правильно ли введены команды и их запуск
      * @param userCommand команда введённая пользователем
      */
+    private int launchCommand(String[] userCommand, String argument){
+        if(userCommand[0].equals("exit")){
+            if(!invoker.exit(userCommand[1])) return 1;
+            else return 2;
+        }
+        invoker.launch(userCommand[0],userCommand[1]);
+        if(userCommand[0].equals("execute_script")){
+            if (!invoker.executeScript(userCommand[1])) return 1;
+            else {
+                if (userCommand[1].equals(argument)){
+                    System.out.println("Обнаружена рекурсия файл не должен ссылаться сам на себя исправьте это");
+                    return 0;
+                }
+                return scripting(userCommand[1]);
+            }
+        }
+        return 0;
+    }
     private int launchCommand(String[] userCommand){
         if(userCommand[0].equals("exit")){
             if(!invoker.exit(userCommand[1])) return 1;

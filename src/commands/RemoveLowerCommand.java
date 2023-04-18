@@ -10,6 +10,7 @@ import utility.NegotiatorWithUser;
 import utility.Receiver;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 /**
  * Класс команда Commands.RemoveLowerCommand наследующийся от абстрактного класса Commands.AbstractCommand
@@ -68,6 +69,9 @@ public class RemoveLowerCommand extends AbstractCommand {
             System.out.println("Данного элемента в коллекции нет!");
         }catch (NothingInTheCollectionException e){
             System.out.println("Коллекция пуста! Веедите в неё данные и повторите попытку");
+        }catch (NoSuchElementException e){
+            System.out.println("Было нажато сочетание клавиш ctrl+d программа экстренно прервана");
+            System.exit(0);
         }
         return false;
     }

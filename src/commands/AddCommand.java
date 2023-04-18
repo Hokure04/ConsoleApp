@@ -8,6 +8,7 @@ import utility.NegotiatorWithUser;
 import utility.Receiver;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 /**
  * Класс команда add наследующийся от абстрактного класса Commands.AbstractCommand
@@ -57,6 +58,9 @@ public class AddCommand extends AbstractCommand {
             return true;
         }catch (IncorrectlyInstalledElement e){
             System.out.println("Установлено неправильное значение элемента! Вы должны ввести просто команду без каких-либо аргументов");
+        }catch (NoSuchElementException e){
+            System.out.println("Было нажато сочетание клавиш ctrl+d программа экстренно прервана");
+            System.exit(0);
         }
         return false;
     }
