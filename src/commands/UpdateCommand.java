@@ -93,7 +93,7 @@ public class UpdateCommand extends AbstractCommand {
         }catch (MusicBandDoesNotExistException e){
             System.out.println("Данного элемента в коллекции нет! Введите правильное значение элемента");
         }catch (NoSuchElementException e){
-            System.out.println("Было нажато сочетание клавиш ctrl+d программа экстренно прервана");
+            System.out.println("Было нажато неприемлимое сочетание клавиш, программа экстренно прервана");
             System.exit(0);
         }
         return false;

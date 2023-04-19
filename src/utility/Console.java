@@ -42,13 +42,14 @@ public class Console {
         int commandStat;
         try {
             do {
+                System.out.println("Программа готова к работе :)");
                 userCommand = (userScanner.nextLine().trim() + " ").split(" ", 2);
                 userCommand[1] = userCommand[1].trim();
                 invoker.addToHistory(userCommand[0]);
                 commandStat = launchCommand(userCommand);
             }while (commandStat != 2);
         }catch (NoSuchElementException e){
-            System.out.println("Было нажато сочетание клавиш ctrl+d программа экстренно прервана");
+            System.out.println("Было нажато не допустимое сочетание клавиш, программа экстренно прервана");
         }catch (IllegalStateException e){
             System.out.println("Ошибка не распознана");
         }
@@ -109,11 +110,15 @@ public class Console {
             else return 2;
         }
         invoker.launch(userCommand[0],userCommand[1]);
+        if(script.contains(userCommand[1])){
+            System.out.println("Обнаружена рекурсия, файлы не должны ссылаться друг на друга или сами на себя");
+            return 0;
+        }
         if(userCommand[0].equals("execute_script")){
             if (!invoker.executeScript(userCommand[1])) return 1;
             else {
                 if (userCommand[1].equals(argument)){
-                    System.out.println("Обнаружена рекурсия файл не должен ссылаться сам на себя исправьте это");
+                    System.out.println("Обнаружена рекурсия, файл не должен ссылаться сам на себя");
                     return 0;
                 }
                 return scripting(userCommand[1]);
