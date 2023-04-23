@@ -21,7 +21,7 @@ public class RemoveByIdCommand extends AbstractCommand {
      * @param nGW переговорщик с пользователем
      */
     public RemoveByIdCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver, ExceptionValidator eValidator){
-        super("remove_by_id","удаление элемента коллекции по его id");
+        super("remove_by_id id","удаление элемента коллекции по его id");
         this.collectionManager = collectionManager;
         this.nGW = nGW;
         this.receiver = receiver;
@@ -45,7 +45,7 @@ public class RemoveByIdCommand extends AbstractCommand {
             System.out.println("Музыкальная группа удалена");
             return true;
         }catch (IncorrectlyInstalledElement e){
-            System.out.println("Установлено неправильное значение элемента! Пожалуйста добавьте как аргумент id эдмемента, который должен быть удалён");
+            System.out.println("Установлено неправильное значение элемента! Пожалуйста добавьте аргумент id элмемента, который должен быть удалён");
         }catch (MusicBandDoesNotExistException e){
             System.out.println("Данного элемента в коллекции нет!");
         }catch (NothingInTheCollectionException e){

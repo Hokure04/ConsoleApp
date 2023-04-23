@@ -70,8 +70,7 @@ public class RemoveLowerCommand extends AbstractCommand {
         }catch (NothingInTheCollectionException e){
             System.out.println("Коллекция пуста! Веедите в неё данные и повторите попытку");
         }catch (NoSuchElementException e){
-            System.out.println("Было нажато неприемлимое сочетание клавиш программа экстренно прервана");
-            System.exit(0);
+            System.out.println("Введённые данные не являются корректными программа не может их исполнить");
         }
         return false;
     }

@@ -39,7 +39,7 @@ public class CountGreaterThanStudioCommand extends AbstractCommand {
         try {
             eValidator.argument(argument);
             eValidator.nullCollection(collectionManager);
-            Studio collectionStudio = collectionManager.getByStudioName(argument);
+            Studio collectionStudio = new Studio(argument);
             eValidator.studioDoesntExist(collectionStudio);
             receiver.countGreaterThanStudio(collectionStudio);
             return true;

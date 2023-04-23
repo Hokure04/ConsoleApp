@@ -2,10 +2,7 @@ package commands;
 
 import data.MusicBand;
 import exceptions.IncorrectlyInstalledElement;
-import utility.CollectionManager;
-import utility.ExceptionValidator;
-import utility.NegotiatorWithUser;
-import utility.Receiver;
+import utility.*;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -55,12 +52,12 @@ public class AddCommand extends AbstractCommand {
                     LocalDateTime.now()
             ));
             System.out.println("Музыкальная группа добавлена");
+            FileManager.accessibility = 0;
             return true;
         }catch (IncorrectlyInstalledElement e){
             System.out.println("Установлено неправильное значение элемента! Вы должны ввести просто команду без каких-либо аргументов");
         }catch (NoSuchElementException e){
-            System.out.println("Было нажато неприемлимое сочетание клавиш, программа экстренно прервана");
-            System.exit(0);
+            System.out.println("Введённые данные не являются корректными программа не может их исполнить");
         }
         return false;
     }

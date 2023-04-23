@@ -49,7 +49,9 @@ public class RemoveAllByNumberOfParticipantsCommand extends AbstractCommand {
         }catch (NothingInTheCollectionException e){
             System.out.println("Данного элемента в коллекции нет!");
         }catch (MusicBandDoesNotExistException e){
-            System.out.println("Коллекция пуста! Веедите в неё данные и повторите попытку");
+            System.out.println("Музыкальной группы с таким количеством участников нет в данной коллекции!");
+        }catch (NumberFormatException e){
+            System.out.println("Неверно введённое количество участников!");
         }
         return false;
     }

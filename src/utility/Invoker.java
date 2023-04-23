@@ -148,6 +148,8 @@ public class Invoker {
                     for (Command command : map.values()) {
                         System.out.printf("%-37s%-1s%n", command.getName(), command.getDescription());
                     }
+                    System.out.printf("%-37s%-1s%n", "execute_script file_name", "считать и исполнить скрипт из указанного файла");
+                    System.out.printf("%-37s%-1s%n", "exit", "завершить программу");
                 } return true;
             }
             else return false;

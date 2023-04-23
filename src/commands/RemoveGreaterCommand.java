@@ -29,7 +29,7 @@ public class RemoveGreaterCommand extends AbstractCommand {
      * @param nGW переговорщик с пользователем
      */
     public RemoveGreaterCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver, ExceptionValidator eValidator){
-        super("remove_greater", "удалить из коллекции все элементы превышающие заданный");
+        super("remove_greater {element}", "удалить из коллекции все элементы превышающие заданный");
         this.collectionManager = collectionManager;
         this.nGW = nGW;
         this.receiver = receiver;
@@ -70,8 +70,7 @@ public class RemoveGreaterCommand extends AbstractCommand {
         }catch (MusicBandDoesNotExistException e){
             System.out.println("Данного элемента в коллекции нет!");
         }catch (NoSuchElementException e){
-            System.out.println("Было нажато неприемлимое сочетание клавиш программа экстренно прервана");
-            System.exit(0);
+            System.out.println("Введённые данные не являются корректными программа не может их исполнить");
         }
         return false;
     }

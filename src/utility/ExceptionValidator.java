@@ -4,7 +4,6 @@ import data.MusicBand;
 import data.Studio;
 import exceptions.*;
 
-import java.util.ArrayDeque;
 
 public class ExceptionValidator {
     public CollectionManager collectionManager;
@@ -21,9 +20,17 @@ public class ExceptionValidator {
         if (i <= 0) throw new LessThanZeroException();
     }
 
-    public void twoFourSevenAndGreater(float i) throws MoreThanTwoFourSevenException{
-        if(i>247) throw new MoreThanTwoFourSevenException();
+    public void twoFourSevenAndGreater(float i) throws ExceedingTheFormatException {
+        if(i>247) throw new ExceedingTheFormatException();
     }
+
+    public void exceed(String number) throws ExceedingTheFormatException{
+        if(number.matches(".*\\d.*")){
+            if(number.length()>9) throw new ExceedingTheFormatException();
+        }
+    }
+
+
     public void shieldSignException(String text) throws ShieldSignException{
         if(text.contains(";")) throw new  ShieldSignException();
     }
@@ -58,5 +65,9 @@ public class ExceptionValidator {
 
     public void findDuplicate() throws DuplicateIdException{
         if(!collectionManager.areAllDistinct()) throw new DuplicateIdException();
+    }
+
+    public void rightAnswer(String argument) throws OnlyNoOrYesException{
+        if(!(argument.equals("yes")||argument.equals("no"))) throw new OnlyNoOrYesException();
     }
 }

@@ -32,7 +32,7 @@ public class UpdateCommand extends AbstractCommand {
      * @param nGW переговорщик с пользователем
      */
     public UpdateCommand(CollectionManager collectionManager, NegotiatorWithUser nGW, Receiver receiver, ExceptionValidator eValidator){
-        super("update {element}", "обновить значение элемента коллекции по его id");
+        super("update id {element}", "обновить значение элемента коллекции по его id");
         this.collectionManager = collectionManager;
         this.nGW = nGW;
         this.receiver = receiver;
@@ -48,9 +48,9 @@ public class UpdateCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument){
         try{
-            eValidator.noArgument(argument);
+            eValidator.argument(argument);
             eValidator.nullCollection(collectionManager);
-            int id = nGW.askId();
+            int id = Integer.parseInt(argument);
             MusicBand band = receiver.getById(id);
             eValidator.doesntExist(band);
             String name = band.getName();
@@ -87,14 +87,15 @@ public class UpdateCommand extends AbstractCommand {
             return true;
 
         }catch (IncorrectlyInstalledElement e){
-            System.out.println("Установлено неправильное значение элемента! Вы должны ввести просто команду без каких-либо аргументов");
+            System.out.println("Установлено неправильное значение элемента! Пожалуйста добавьте аргумент id элмемента, который должен быть обновлён");
         }catch (NothingInTheCollectionException e){
             System.out.println("Коллекция пуста! Веедите в неё данные и повторите попытку");
         }catch (MusicBandDoesNotExistException e){
             System.out.println("Данного элемента в коллекции нет! Введите правильное значение элемента");
+        }catch (NumberFormatException e) {
+            System.out.println("Неверно введённое значение id!");
         }catch (NoSuchElementException e){
-            System.out.println("Было нажато неприемлимое сочетание клавиш, программа экстренно прервана");
-            System.exit(0);
+            System.out.println("Введённые данные не являются корректными программа не может их исполнить");
         }
         return false;
     }

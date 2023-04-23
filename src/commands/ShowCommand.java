@@ -32,11 +32,14 @@ public class ShowCommand extends AbstractCommand {
     @Override
     public boolean execute(String argument) {
         try {
+            eValidator.nullCollection(collectionManager);
             eValidator.noArgument(argument);
             receiver.show();
             return true;
         } catch (IncorrectlyInstalledElement e) {
             System.out.println("Установлено неправильное значение элемента! Вы должны ввести просто команду без каких-либо аргументов");
+        }catch (NothingInTheCollectionException e){
+            System.out.println("Коллекция пуста! Веедите в неё данные и повторите попытку");
         }
         return false;
     }

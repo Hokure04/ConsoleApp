@@ -3,10 +3,7 @@ package utility;
 import data.Coordinates;
 import data.MusicGenre;
 import data.Studio;
-import exceptions.LessThanZeroException;
-import exceptions.MoreThanTwoFourSevenException;
-import exceptions.MustBeNotEmptyException;
-import exceptions.ShieldSignException;
+import exceptions.*;
 
 import java.util.Scanner;
 
@@ -127,10 +124,10 @@ public class NegotiatorWithUser {
                 eValidator.twoFourSevenAndGreater(x);
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно! Координата x обязательно должна быть дробным числом");
+                System.out.println("Данные введены неверно! Координата x обязательно должна быть числом");
             }catch (NullPointerException e){
                 System.out.println("Значение обязательно должно быть введено! Пожалуйста, введите координату");
-            }catch (MoreThanTwoFourSevenException e){
+            }catch (ExceedingTheFormatException e){
                 System.out.println("Значение превышает допустимое. Максимальное значение 247");
             }
         }
@@ -143,16 +140,21 @@ public class NegotiatorWithUser {
      */
     public Integer askCoordinateY(){
         Integer y;
+        String yText;
         while (true){
             try {
                 System.out.println("Введите координату y:");
-                y = Integer.valueOf(userScanner.nextLine());
+                yText = userScanner.nextLine();
+                eValidator.exceed(yText);
+                y = Integer.valueOf(yText);
                 if (fileMode) System.out.println(y);
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Данные введены неверно! Координата y обязательно должна являться целым числом");
             }catch (NullPointerException e){
                 System.out.println("Значение обязательно должно быть введено! Пожалуйста введите координату");
+            }catch (ExceedingTheFormatException e){
+                System.out.println("Координата y не должна являться настолько длинным числом!");
             }
         }
         return y;
@@ -174,17 +176,22 @@ public class NegotiatorWithUser {
      */
     public int askNumberOfParticipants(){
         int numberOP;
+        String numberOPText;
         while (true){
             try {
                 System.out.println("Введите количество участников:");
-                numberOP = Integer.parseInt(userScanner.nextLine());
+                numberOPText = userScanner.nextLine();
+                eValidator.exceed(numberOPText);
+                numberOP = Integer.parseInt(numberOPText);
                 if (fileMode) System.out.println(numberOP);
                 eValidator.zeroAndLower(numberOP);
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно! Количество участников должно быть введено числом");
+                System.out.println("Данные введены неверно! Количество участников должно быть введено целым числом");
             }catch (LessThanZeroException e){
                 System.out.println("Значение должно быть больше нуля!");
+            } catch (ExceedingTheFormatException e) {
+                System.out.println("Количество участников не должно быть настолько длинным числом!");
             }
         }
         return numberOP;
@@ -201,14 +208,17 @@ public class NegotiatorWithUser {
             try {
                 System.out.println("Введите количество синглов:");
                 singlesCountText = userScanner.nextLine();
+                eValidator.exceed(singlesCountText);
                 if (fileMode) System.out.println(singlesCountText);
                 singlesCount = Integer.valueOf(singlesCountText);
                 eValidator.zeroAndLower(singlesCount);
                 break;
             }catch (NumberFormatException e){
-                System.out.println("Данные введены неверно! Количество синглов должно быть введено числом");
+                System.out.println("Данные введены неверно! Количество синглов должно быть введено целым числом");
             }catch (LessThanZeroException e){
                 System.out.println("Значение должно быть больше нуля!");
+            }catch (ExceedingTheFormatException e){
+                System.out.println("Количество участников не должно являться настолько длинным числом!");
             }
         }
         return singlesCount;
@@ -328,11 +338,14 @@ public class NegotiatorWithUser {
                 answer = userScanner.nextLine().trim();
                 if (fileMode) System.out.println(answer);
                 eValidator.emptyString(answer);
+                eValidator.rightAnswer(answer);
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Данные введены неверно! Вы должны ответить (yes/no)");
             }catch (MustBeNotEmptyException e){
                 System.out.println("Значение обязательно должно быть введено!");
+            }catch (OnlyNoOrYesException e){
+                System.out.println("Ответ на вопрос должен быть только yes или no!");
             }
         }
         return answer.equals("yes") ? true:false;

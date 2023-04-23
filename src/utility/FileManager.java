@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class FileManager {
     /** поле мэнеджер коллекции */
     private final CollectionManager collectionManager;
     private Receiver receiver;
+    public static int accessibility;
 
 
 
@@ -58,6 +60,9 @@ public class FileManager {
             scanner.close();
         }catch (NullPointerException e){
             System.out.println("В файле находиться недопустимое значение");
+        } catch (AccessDeniedException e){
+            System.out.println("Нет возможности прочитать, что либо из файла");
+            accessibility = 1;
         } catch (IOException e) {
             System.out.println("Неизвестная ошибка");
         }
@@ -115,8 +120,9 @@ public class FileManager {
                 String line = String.valueOf(id)+";"+name+";"+String.valueOf(x)+";"+String.valueOf(y)+";"+String.valueOf(participants)+";"+String.valueOf(singlesCount)+";"+description+";"+String.valueOf(genre)+";"+studio+";"+String.valueOf(stringDate)+"\n";
                 outputStreamWriter.write(line);
             }
+            System.out.println("Коллекция успешна сохранена");
         }catch (FileNotFoundException e){
-            System.out.println("Файл не найден, создайте файл или если вы открыли файл, закройте его для того, чтобы программа могла с ним работать:)");
+            System.out.println("Файл недоступен или не существует исправьте это :)");
         }
     }
 

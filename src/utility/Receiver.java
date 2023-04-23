@@ -2,6 +2,7 @@ package utility;
 
 import data.MusicBand;
 import data.Studio;
+import exceptions.NoAccessException;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -33,10 +34,16 @@ public class Receiver {
      */
 
     public void show(){
-
-        for (MusicBand mband : CollectionManager.collection) {
-            System.out.printf("%1s %16s %10s %5s %5s %5s %20s %10s %12s", mband.getId(), mband.getName(), mband.getCoordinateX(), mband.getCoordinateY(), mband.getNumberOfParticipants(), mband.getSinglesCount(), mband.getDescription(), mband.getGenre(), mband.getStudioName());
+        try {
+            if (FileManager.accessibility == 1) throw new NoAccessException();
+            System.out.printf("%1s %16s %15s %17s %23s %16s %25s %11s %16s", "id", "Music Band Name", "Coordinate x", "Coordinate y", "Number of participants", "Single Count", "Description", "Genre", "Studio");
             System.out.println();
+            for (MusicBand mband : CollectionManager.collection) {
+                System.out.printf("%1s %16s %15s %17s %15s %25s %24s %11s %16s", mband.getId(), mband.getName(), mband.getCoordinateX(), mband.getCoordinateY(), mband.getNumberOfParticipants(), mband.getSinglesCount(), mband.getDescription(), mband.getGenre(), mband.getStudioName());
+                System.out.println();
+            }
+        }catch (NoAccessException e){
+            System.out.println("Невозможно прочитать содержимое файла, так как данный файл недоступен");
         }
     }
 
@@ -98,8 +105,11 @@ public class Receiver {
      */
     public void printAscending(){
         this.collectionManager.sortedCollection();
+        System.out.printf("%1s %16s %15s %17s %23s %16s %25s %11s %16s", "id", "Music Band Name", "Coordinate x", "Coordinate y", "Number of participants", "Single Count", "Description", "Genre", "Studio");
+        System.out.println();
         for(MusicBand mband : collectionManager.collection){
-            System.out.println(mband.getId() + " " + mband.getName() + " " + mband.getCoordinateX() + " " + mband.getCoordinateY() + " " + mband.getNumberOfParticipants() + " " + mband.getSinglesCount() + " " + mband.getDescription() + " " + mband.getGenre() + " " + mband.getStudioName());
+            System.out.printf("%1s %16s %15s %17s %15s %25s %24s %11s %16s", mband.getId(), mband.getName(), mband.getCoordinateX(), mband.getCoordinateY(), mband.getNumberOfParticipants(), mband.getSinglesCount(), mband.getDescription(), mband.getGenre(), mband.getStudioName());
+            System.out.println();
         }
     }
 

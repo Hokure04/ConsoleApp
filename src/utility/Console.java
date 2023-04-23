@@ -38,11 +38,11 @@ public class Console {
      * функция, котрая запускает рабочее поле для пользователя и проверяет введённые пользователем данные
      */
     public void start(){
+        System.out.println("Добро пожаловать это приглашение, чтобы начать работу с этим приложением");
         String[] userCommand = {"",""};
         int commandStat;
         try {
             do {
-                System.out.println("Программа готова к работе :)");
                 userCommand = (userScanner.nextLine().trim() + " ").split(" ", 2);
                 userCommand[1] = userCommand[1].trim();
                 invoker.addToHistory(userCommand[0]);
